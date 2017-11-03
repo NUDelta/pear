@@ -1,13 +1,16 @@
+import http from 'http';
 import express from 'express';
 import settings from './config/settings';
 import * as gamesLibrary from '../game/lib/games';
 import bodyParser from 'body-parser';
 import crypto from 'crypto';
+import ws from 'ws';
 
 const app = express();
 const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 
+const server = http.createServer(app);
 const activeGames = {};
 
 app.use((req, res, next) => {
@@ -16,9 +19,12 @@ app.use((req, res, next) => {
     next();
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log('Game server listening on port ' + port);
 });
+
+const WebSocketServer = ws.Server;
+const wss = new WebSocketServer({ server: server });
 
 app.get('/new/:gameTitle', (req, res) => {
     const gameTitle = req.params.gameTitle || settings.DEFAULT_GAME;
@@ -39,9 +45,16 @@ app.get('/game/:gameId', (req, res) => {
     const { gameId } = req.params;
 
     if (gameId in activeGames) {
+        connectSocket(gameId);
         const game = activeGames[gameId];
         res.json(game._store.getState());
     } else {
         res.status(404).send(`Oops! Looks like your game ID is invalid. Try again.`);
     }
 });
+
+const connectSocket = id => {
+    wss.on('connection', (socket) => {
+        const stream = new WriteStreamHandler(socket, id);
+    });
+}
