@@ -61,10 +61,28 @@ class MergeArraysPrompt extends Prompt {
                 input: [[3,4,5,6,10,166],[2,7,8,11,165,167]],
                 expected: [2,3,4,5,6,7,8,10,11,165,166,167]
             }
-        ]
+        ];
 
+        // tests:
+        //  check second array empty
+        //  check second array all larger
+        //  check high repetition
+        //  check first array all larger
         this._hidden_tests = [
-        ]
+            {
+                input: [[1,2,3,5],[]],
+                expected: [1,2,3,5]
+            }, {
+                input: [[-1,-1,0,2,3,5],[55,66,77]],
+                expected: [-1,-1,0,2,3,5,55,66,77]
+            }, {
+                input: [[1,1,1,1,1,2,2,2],[1,1,2,2,3,3,3,3]],
+                expected: [1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3]
+            }, {
+                input: [[10,11,12],[6,8]],
+                expected: [6,8,10,11,12]
+            },
+        ];
 
         this._testResults = [];
         this._testRunTimestampMS = Date.now()

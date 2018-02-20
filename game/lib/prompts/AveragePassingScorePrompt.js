@@ -57,7 +57,24 @@ class AveragePassingScorePrompt extends Prompt {
                 input: [[67,68,69,70,71,72,73,74,75,75]],
                 expected: 72.85714285714286
             }
-        ]
+        ];
+
+        // tests:
+        //  check simple, single element array
+        //  check single element array that doesn't fit specs
+        //  check no upper bound assumption of 100
+        this._hidden_tests = [
+            {
+                input: [[70]],
+                expected: 70
+            }, {
+                input: [[69]],
+                expected: 0
+            }, {
+                input: [[1000,2000]],
+                expected: 1500
+            }
+        ];
 
         this._testResults = [];
         this._testRunTimestampMS = Date.now();

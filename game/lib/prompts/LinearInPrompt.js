@@ -55,17 +55,31 @@ class LinearInPrompt extends Prompt {
                 input: [[],[-10,10]],
                 expected: true
             }
-        ]
+        ];
 
+        // tests:
+        //  check when either inner or outer is empty
+        //  check when inner is longer than outer
+        //  check when both inner and outer are long and exactly the same
+        //  check when high integer repetition
         this._hidden_tests = [
             {
-                input: [[],[]],
+                input: [[],[1]],
                 expected: true
             }, {
                 input: [[1],[]],
                 expected: false
+            }, {
+                input: [[-10,0,0,10],[-10,0]],
+                expected: false
+            }, {
+                input: [[-1,0,1,2,3,4,5],[-1,0,1,2,3,4,5]],
+                expected: true
+            }, {
+                input: [[0,0,0,0,0,1,2,2,2,2,2,2],[0,0,0,0,0,1,1,2,2,2,2,2,2]],
+                expected: true
             }
-        ]
+        ];
 
         this._testResults = [];
         this._testRunTimestampMS = Date.now()

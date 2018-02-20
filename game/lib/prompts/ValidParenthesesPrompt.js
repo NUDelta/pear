@@ -60,6 +60,27 @@ class ValidParenthesesPrompt extends Prompt {
             }
         ];
 
+        // tests:
+        //  check empty string
+        //  check multiple spaces
+        //  check against queue implementation
+        //  check ending space character
+        this._hidden_tests = [
+            {
+                input: [''],
+                expected: true
+            }, {
+                input: ['[(  ) ]'],
+                expected: true
+            }, {
+                input: ['{[}]'],
+                expected: false
+            }, {
+                input: ['()[]{} '],
+                expected: true
+            }
+        ];
+
         this._testResults = [];
         this._testRunTimestampMS = Date.now();
     }

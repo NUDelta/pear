@@ -55,8 +55,15 @@ class ArraySequenceMatchPrompt extends Prompt {
                 input: [[1,2,3,4,5,3,2,2,4,4], "1"],
                 expected: true
             }
-        ]
+        ];
 
+        // hidden tests:
+        //  empty array
+        //  seq longer than array
+        //  single char seq that doesn't exist in array
+        //  nearly equivalent, similar to #2
+        //  non integer sequence character
+        //  restart seq index at a specific index (not 0 or 1)
         this._hidden_tests = [
             {
                 input: [[],"123"],
@@ -73,8 +80,12 @@ class ArraySequenceMatchPrompt extends Prompt {
             }, {
                 input: [[1,2,4,2,5,3,2,5,3,5,6,5], "1242i5"],
                 expected: false
+            }, {
+                input: [[1,2,4,1,2,4,1,2,4,3], "1241243"],
+                expected: true
             }
-        ]
+        ];
+
         this._testResults = [];
         this._testRunTimestampMS = Date.now()
     }
